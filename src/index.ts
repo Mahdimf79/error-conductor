@@ -56,6 +56,37 @@ class ErrorConductor {
     }
   }
 
+  async receiveErrors(
+    callback: (errorDetails: ErrorDetails) => void
+  ): Promise<void> {
+    try {
+      const connection = await amqp.connect(this.rabbitMQUrl);
+      const channel = await connection.createChannel();
+
+      await channel.assertQueue(this.queueName);
+
+      channel.consume(
+        this.queueName,
+        (msg) => {
+          if (msg) {
+            const messageContent = msg.content.toString();
+            try {
+              const errorDetails: ErrorDetails = JSON.parse(messageContent);
+              callback(errorDetails);
+            } catch (err) {
+              console.error("Failed to parse message content:", err);
+            }
+
+            channel.ack(msg);
+          }
+        },
+        { noAck: false }
+      );
+    } catch (err) {
+      console.error("Failed to receive messages from RabbitMQ:", err);
+    }
+  }
+
   private formatError(error: ErrorInput, repository?: string): ErrorDetails {
     if (error instanceof CustomError) {
       return {

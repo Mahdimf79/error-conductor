@@ -57,6 +57,21 @@ reporter.sendError({
 });
 ```
 
+#### Example 4: Receiving errors from the RabbitMQ queue
+
+You can use the `receiveErrors` method to listen for error messages on the RabbitMQ queue. The method takes a callback function that handles the received error data.
+
+```typescript
+import ErrorConductor from "error-conductor";
+
+const receiver = new ErrorConductor("amqp://localhost", "errors");
+
+receiver.receiveErrors((errorDetails) => {
+  console.log("Received error:", errorDetails);
+  // Handle the errorDetails as needed
+});
+```
+
 ### CustomError Class
 
 You can create your own custom errors by extending the `CustomError` class. This allows you to specify custom error categories and codes.
@@ -84,7 +99,11 @@ const reporter = new ErrorConductor("amqp://localhost", "errors");
 
 ### Why Use ErrorConductor?
 
-`ErrorConductor` provides a way to easily track and manage errors in large-scale distributed applications. By centralizing error reports in RabbitMQ, you can quickly analyze and respond to issues across multiple repositories and services.
+`ErrorConductor` provides a way to easily track and manage errors in large-scale distributed applications. By centralizing error reports in RabbitMQ, you can:
+
+- **Monitor errors**: Gain visibility across multiple repositories.
+- **Analyze issues**: Use consistent error formats for easier debugging.
+- **React quickly**: Streamline error handling for rapid resolution.
 
 ### Contributing
 
