@@ -1,6 +1,19 @@
 import amqp from "amqplib";
-import { CustomError } from "./CustomError";
 
+export class CustomError extends Error {
+  public category: string;
+  public code: string;
+
+  constructor(message: string, category: string, code: string) {
+    super(message);
+    this.category = category;
+    this.code = code;
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, CustomError);
+    }
+  }
+}
 interface ErrorDetails {
   category: string;
   code: string;
@@ -21,7 +34,7 @@ class ErrorConductor {
     this.queueName = queueName;
   }
 
-  async sendError(error: ErrorInput, repository: string): Promise<void> {
+  async sendError(error: ErrorInput, repository?: string): Promise<void> {
     const errorDetails = this.formatError(error, repository);
 
     try {
@@ -42,14 +55,14 @@ class ErrorConductor {
     }
   }
 
-  private formatError(error: ErrorInput, repository: string): ErrorDetails {
+  private formatError(error: ErrorInput, repository?: string): ErrorDetails {
     if (error instanceof CustomError) {
       return {
         category: error.category,
         code: error.code,
         timestamp: new Date(),
         content: error.message,
-        repository,
+        repository: repository || 'Unknown',
         stack: error.stack,
       };
     }
@@ -60,17 +73,17 @@ class ErrorConductor {
         code: "500",
         timestamp: new Date(),
         content: error.message,
-        repository,
+        repository: repository || 'Unknown',
         stack: error.stack,
       };
     }
-
+    
     return {
       category: error.category || "General",
       code: error.code || "500",
       timestamp: error.timestamp || new Date(),
       content: error.content || "Unknown error",
-      repository,
+      repository: error.repository || repository || 'Unknown',
       stack: error.stack,
     };
   }

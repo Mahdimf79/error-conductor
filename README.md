@@ -15,7 +15,7 @@ npm install error-conductor
 #### Example 1: Sending a general error
 
 ```typescript
-import { ErrorConductor, CustomError } from "error-conductor";
+import ErrorConductor, { CustomError } from "error-conductor";
 
 // Initialize the ErrorConductor with RabbitMQ connection URL and queue name
 const reporter = new ErrorConductor("amqp://localhost", "errors");
@@ -30,7 +30,7 @@ try {
 #### Example 2: Sending a custom error
 
 ```typescript
-import { ErrorConductor, CustomError } from "error-conductor";
+import ErrorConductor, { CustomError } from "error-conductor";
 
 const reporter = new ErrorConductor("amqp://localhost", "errors");
 
@@ -44,20 +44,17 @@ try {
 #### Example 3: Sending a partial error
 
 ```typescript
-import { ErrorConductor } from "error-conductor";
+import ErrorConductor from "error-conductor";
 
 const reporter = new ErrorConductor("amqp://localhost", "errors");
 
-reporter.sendError(
-  {
-    category: "Warning",
-    code: "402",
-    timestamp: new Date(),
-    content: "This is a partial error",
-    repository: "Repo3",
-  },
-  "Repo3"
-);
+reporter.sendError({
+  category: "Warning",
+  code: "402",
+  timestamp: new Date(),
+  content: "This is a partial error",
+  repository: "Repo3",
+});
 ```
 
 ### CustomError Class
