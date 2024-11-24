@@ -15,7 +15,7 @@ export class CustomError extends Error {
   }
 }
 
-interface ErrorDetails {
+export interface ErrorDetails {
   category?: string;
   code?: string;
   timestamp?: Date;
@@ -63,7 +63,7 @@ class ErrorConductor {
         code: error.code,
         timestamp: new Date(),
         content: error.message,
-        repository: repository || 'Unknown',
+        repository: repository || "Unknown",
         stack: error.stack,
       };
     }
@@ -74,17 +74,17 @@ class ErrorConductor {
         code: "500",
         timestamp: new Date(),
         content: error.message,
-        repository: repository || 'Unknown',
+        repository: repository || "Unknown",
         stack: error.stack,
       };
     }
-    
+
     return {
       category: error.category || "General",
       code: error.code || "500",
       timestamp: error.timestamp || new Date(),
       content: error.content || "Unknown error",
-      repository: error.repository || repository || 'Unknown',
+      repository: error.repository || repository || "Unknown",
       stack: error.stack,
     };
   }
