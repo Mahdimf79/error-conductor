@@ -14,6 +14,7 @@ export class CustomError extends Error {
     }
   }
 }
+
 interface ErrorDetails {
   category: string;
   code: string;
