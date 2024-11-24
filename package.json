@@ -1,0 +1,32 @@
+{
+  "name": "error-conductor",
+  "version": "0.1.0",
+  "description": "A professional error aggregation package for centralized error reporting across multiple repositories using RabbitMQ. Includes flexible input handling, metadata enrichment, and seamless integration.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdimf79/error-conductor.git"
+  },
+  "author": "https://github.com/Mahdimf79",
+  "license": "MIT",
+  "homepage": "https://github.com/Mahdimf79/error-conductor#readme",
+  "dependencies": {
+    "amqplib": "^0.10.5",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/node": "^22.9.3",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  }
+}
