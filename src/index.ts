@@ -16,11 +16,11 @@ export class CustomError extends Error {
 }
 
 interface ErrorDetails {
-  category: string;
-  code: string;
-  timestamp: Date;
-  content: string;
-  repository: string;
+  category?: string;
+  code?: string;
+  timestamp?: Date;
+  content?: string;
+  repository?: string;
   stack?: string;
 }
 
